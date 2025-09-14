@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Мое андроид приложение</string>
+    <string name="btn1">Btn1</string>
+    <string name="btn2">Btn2</string>
+    <string name="btn3">Btn3</string>
+    <string name="btn4">Btn4</string>
+    <string name="AfterClick">***</string>
+</resources>
