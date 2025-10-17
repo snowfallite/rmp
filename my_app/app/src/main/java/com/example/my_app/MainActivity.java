@@ -2,44 +2,65 @@ package com.example.my_app;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    TextView textView1, textView2;
-    Button buttonAdd, buttonCopy;
+    private LinearLayout linearLayout;
+    private TextView textView1, textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        linearLayout = findViewById(R.id.mLL);
         textView1 = findViewById(R.id.tv1);
         textView2 = findViewById(R.id.tv2);
-        buttonAdd = findViewById(R.id.buttonAdd);
-        buttonCopy = findViewById(R.id.buttonCopy);
-
-
-        buttonAdd.setOnClickListener(this);
-        buttonCopy.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
+    // ---------- длинные кнопки ----------
+    public void toRedGreen(View view) {
+        int bgColor = ContextCompat.getColor(this, android.R.color.holo_red_dark);
+        int textColor = ContextCompat.getColor(this, android.R.color.holo_green_light);
+        textView1.setBackgroundColor(bgColor);
+        textView2.setBackgroundColor(bgColor);
+        textView1.setTextColor(textColor);
+        textView2.setTextColor(textColor);
+    }
 
-        if (id == R.id.buttonAdd) {
+    public void toYellowBlue(View view) {
+        int bgColor = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+        int textColor = ContextCompat.getColor(this, android.R.color.holo_blue_light);
+        textView1.setBackgroundColor(bgColor);
+        textView2.setBackgroundColor(bgColor);
+        textView1.setTextColor(textColor);
+        textView2.setTextColor(textColor);
+    }
 
-            String s = textView1.getText().toString();
-            textView1.setText(s + "*");
-        }
-        else if (id == R.id.buttonCopy) {
+    public void toBlackWhite(View view) {
+        int bgColor = ContextCompat.getColor(this, android.R.color.black);
+        int textColor = ContextCompat.getColor(this, android.R.color.white);
+        textView1.setBackgroundColor(bgColor);
+        textView2.setBackgroundColor(bgColor);
+        textView1.setTextColor(textColor);
+        textView2.setTextColor(textColor);
+    }
 
-            textView2.setText(textView1.getText().toString());
-        }
+    // ---------- короткие кнопки ----------
+    public void setBgRed(View view) {
+        linearLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_light));
+    }
+
+    public void setBgBlue(View view) {
+        linearLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_blue_light));
+    }
+
+    public void setBgBlack(View view) {
+        linearLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.black));
     }
 }
