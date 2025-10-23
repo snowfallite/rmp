@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         etStr2 = findViewById(R.id.etStr2);
         etInt = findViewById(R.id.etInt);
 
-        // создаем или открываем настройки
+
         preferences = getSharedPreferences(
                 getString(R.string.preferences),
                 MODE_PRIVATE
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Восстанавливаем значения
+
         String keyStr1 = getString(R.string.string_element_1);
         String keyStr2 = getString(R.string.string_element_2);
         String keyInt = getString(R.string.int_element);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Извлекаем значения из EditText
+
         String str1 = etStr1.getText().toString();
         String str2 = etStr2.getText().toString();
         int intValue = 0;
@@ -58,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
             intValue = Integer.parseInt(etInt.getText().toString());
         } catch (NumberFormatException ignored) { }
 
-        // Сохраняем настройки
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.string_element_1), str1);
         editor.putString(getString(R.string.string_element_2), str2);
         editor.putInt(getString(R.string.int_element), intValue);
-        editor.apply(); // можно использовать commit(), но apply() быстрее
+        editor.apply();
     }
 }
