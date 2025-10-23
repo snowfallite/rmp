@@ -10,4 +10,6 @@
     <color name="bg">#0041DC</color>
     <color name="btnBg">#FDBDBD</color>
     <color name="btnText">#FF2C2C</color>
+    <color name="pink">#FFB6C1</color>
+    <color name="light_blue">#ADD8E6</color>
 </resources>
