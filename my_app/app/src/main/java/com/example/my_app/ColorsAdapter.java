@@ -7,26 +7,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 public class ColorsAdapter extends BaseAdapter {
-    private final String[] names;
+    private final String[] colorNames;
+    private final int[] colorValues;
     private final Context context;
 
-    // Конструктор адаптера
-    public ColorsAdapter(Context context, String[] names) {
+    public ColorsAdapter(Context context, String[] colorNames, int[] colorValues) {
         this.context = context;
-        this.names = names;
+        this.colorNames = colorNames;
+        this.colorValues = colorValues;
     }
 
     @Override
     public int getCount() {
-        return names.length;
+        return colorNames.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return names[position];
+        return colorValues[position];
     }
 
     @Override
@@ -38,22 +37,15 @@ public class ColorsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater)
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_item, parent, false);
+            view = inflater.inflate(R.layout.list_item_color, parent, false);
         }
 
-
-        TextView textView = view.findViewById(R.id.itemText);
-        textView.setText(names[position]);
-
-        if (position % 2 == 0) {
-            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.pink));
-        } else {
-            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue));
-        }
+        TextView textView = view.findViewById(R.id.textColorName);
+        textView.setText(colorNames[position]);
+        textView.setBackgroundColor(colorValues[position]);
 
         return view;
     }
