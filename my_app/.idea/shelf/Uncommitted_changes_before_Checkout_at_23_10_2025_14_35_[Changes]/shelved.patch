@@ -1,0 +1,69 @@
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\">\r\n\r\n    <ListView\r\n        android:id=\"@+id/listView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\" />\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision ab03bf376ff04c8bc4f1d60e370137bcaf4fcddc)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1761219319705)
+@@ -2,10 +2,13 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:gravity="center"
+     android:orientation="vertical">
+ 
+-    <ListView
+-        android:id="@+id/listView"
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent" />
++    <Button
++        android:id="@+id/btnOpenActivity"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Open Activity"
++        android:onClick="openSecondActivity"/>
+ </LinearLayout>
+Index: app/src/main/java/com/example/my_app/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my_app;\r\n\r\nimport android.os.Bundle;\r\nimport android.widget.ListView;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        // получаем ссылку на ListView\r\n        ListView listView = findViewById(R.id.listView);\r\n\r\n        // загружаем массив из ресурсов\r\n        String[] items = getResources().getStringArray(R.array.items_array);\r\n\r\n        // создаём и устанавливаем адаптер\r\n        ColorsAdapter adapter = new ColorsAdapter(this, items);\r\n        listView.setAdapter(adapter);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/my_app/MainActivity.java b/app/src/main/java/com/example/my_app/MainActivity.java
+--- a/app/src/main/java/com/example/my_app/MainActivity.java	(revision ab03bf376ff04c8bc4f1d60e370137bcaf4fcddc)
++++ b/app/src/main/java/com/example/my_app/MainActivity.java	(date 1761219285300)
+@@ -1,24 +1,19 @@
+ package com.example.my_app;
+ 
++import android.content.Intent;
+ import android.os.Bundle;
+-import android.widget.ListView;
++import android.view.View;
+ import androidx.appcompat.app.AppCompatActivity;
+ 
+ public class MainActivity extends AppCompatActivity {
+-
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+-
+-        // получаем ссылку на ListView
+-        ListView listView = findViewById(R.id.listView);
++    }
+ 
+-        // загружаем массив из ресурсов
+-        String[] items = getResources().getStringArray(R.array.items_array);
+-
+-        // создаём и устанавливаем адаптер
+-        ColorsAdapter adapter = new ColorsAdapter(this, items);
+-        listView.setAdapter(adapter);
++    public void openSecondActivity(View view) {
++        Intent intent = new Intent(this, SecondActivity.class);
++        startActivity(intent);
+     }
+ }
