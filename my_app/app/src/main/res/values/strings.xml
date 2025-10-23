@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Осипов А.Д 222909071097</string>
-    <string name="btn1">Btn1</string>
-    <string name="btn2">Btn2</string>
-    <string name="btn3">Btn3</string>
-    <string name="btn4">Btn4</string>
-    <string name="AfterClick">***</string>
+    <string name="preferences">my_settings</string>
+    <string name="string_element_1">key_str1</string>
+    <string name="string_element_2">key_str2</string>
+    <string name="int_element">key_int</string>
 </resources>

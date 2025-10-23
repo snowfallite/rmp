@@ -1,4 +1,17 @@
 package com.example.my_app;
 
-public class ThirdActivity {
+import android.os.Bundle;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ThirdActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_third);
+    }
+
+    public void goBack(View view) {
+        onBackPressed();
+    }
 }
