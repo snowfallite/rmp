@@ -3,72 +3,92 @@ package com.example.my_app.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 import com.example.my_app.R;
 import com.example.my_app.base.MyBaseActivity;
+import java.util.ArrayList;
 
 public class MainActivity extends MyBaseActivity {
 
-    private EditText editText1;
-    private EditText editText2;
-    private Button buttonEdit;
-
-    // Идентификатор типа запроса
-    protected static final int MY_ACTION = 0x000314;
+    private ArrayList<String> notesList;
+    private ArrayAdapter<String> adapter;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText1 = findViewById(R.id.editText1);
-        editText2 = findViewById(R.id.editText2);
-        buttonEdit = findViewById(R.id.buttonEdit);
+        listView = findViewById(R.id.listView);
+        Button addButton = findViewById(R.id.addButton);
 
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
+        // Инициализация списка заметок
+        notesList = new ArrayList<>();
+
+        // Создание адаптера
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notesList);
+        listView.setAdapter(adapter);
+
+        // Обработчик нажатия кнопки Add
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSecondActivity();
+                openNoteActivityForCreate();
+            }
+        });
+
+        // Обработчик нажатия на элемент списка
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openNoteActivityForEdit(position);
             }
         });
     }
 
-    private void openSecondActivity() {
-        Intent intent = new Intent(this, SecondActivity.class);
+    private void openNoteActivityForCreate() {
+        Intent intent = new Intent(this, NoteActivity.class);
+        startActivityForResult(intent, CREATE_ACTION);
+    }
 
-        // Передаем содержимое EditText в Intent
-        intent.putExtra(getString(R.string.key_text1), editText1.getText().toString());
-        intent.putExtra(getString(R.string.key_text2), editText2.getText().toString());
-
-        // Запускаем активность для получения результата
-        startActivityForResult(intent, MY_ACTION);
+    private void openNoteActivityForEdit(int position) {
+        Intent intent = new Intent(this, NoteActivity.class);
+        // Передаем текст заметки и позицию
+        intent.putExtra(EXTRA_TEXT, notesList.get(position));
+        intent.putExtra(EXTRA_ID, position);
+        startActivityForResult(intent, EDIT_ACTION);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Проверяем тип запроса (у нас только один)
-        if (requestCode == MY_ACTION) {
-            // Проверяем, был ли результат успешным
-            if (resultCode == RESULT_OK) {
-                // Получаем данные из Intent
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    // Извлекаем данные и копируем в EditText
-                    String text1 = extras.getString(getString(R.string.key_text1));
-                    String text2 = extras.getString(getString(R.string.key_text2));
+        if (resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                String text = extras.getString(EXTRA_TEXT);
 
-                    if (text1 != null) {
-                        editText1.setText(text1);
-                    }
-                    if (text2 != null) {
-                        editText2.setText(text2);
-                    }
+                switch (requestCode) {
+                    case CREATE_ACTION:
+                        // Добавляем новую строку в список
+                        if (text != null && !text.trim().isEmpty()) {
+                            notesList.add(text);
+                            adapter.notifyDataSetChanged();
+                        }
+                        break;
+                    case EDIT_ACTION:
+                        // Извлекаем позицию строки и редактируем
+                        int position = extras.getInt(EXTRA_ID);
+                        if (text != null && position >= 0 && position < notesList.size()) {
+                            notesList.set(position, text);
+                            adapter.notifyDataSetChanged();
+                        }
+                        break;
                 }
             }
-            // Если resultCode == RESULT_CANCELED, ничего не делаем
         }
     }
 

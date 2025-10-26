@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.NoteActivity"
+            android:exported="false" />
         <activity android:name=".activities.ColorsActivity" />
         <activity android:name=".activities.SecondActivity" />
         <activity android:name=".activities.ThirdActivity" />
