@@ -6,10 +6,17 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите текст заметки"
+        android:hint="Заголовок"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Содержание"
         android:inputType="textMultiLine"
         android:minLines="3"
         android:maxLines="10"

@@ -9,12 +9,14 @@ import android.widget.ListView;
 import com.example.my_app.R;
 import com.example.my_app.adapters.NoteAdapter;
 import com.example.my_app.base.MyBaseActivity;
+import com.example.my_app.model.Note;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends MyBaseActivity {
 
-    private List<String> notes;
+    private List<Note> notes;
     private ListView listView;
     private NoteAdapter adapter;
 
@@ -26,8 +28,8 @@ public class MainActivity extends MyBaseActivity {
         // Инициализация списка заметок
         notes = new ArrayList<>();
         // Добавляем тестовые записи
-        notes.add("Record 1");
-        notes.add("Record 2");
+        notes.add(new Note("Заголовок 1", "Содержание первой записи", new Date()));
+        notes.add(new Note("Заголовок 2", "Содержание второй записи", new Date()));
 
         listView = findViewById(R.id.listView);
         Button addButton = findViewById(R.id.addButton);
@@ -54,7 +56,7 @@ public class MainActivity extends MyBaseActivity {
     }
 
     // Getter для доступа к списку из адаптера
-    public List<String> getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
@@ -65,8 +67,8 @@ public class MainActivity extends MyBaseActivity {
 
     private void openNoteActivityForEdit(int position) {
         Intent intent = new Intent(this, NoteActivity.class);
-        // Передаем текст заметки и позицию
-        intent.putExtra(EXTRA_TEXT, notes.get(position));
+        // Передаем объект Note и позицию
+        intent.putExtra(EXTRA_NOTE, notes.get(position));
         intent.putExtra(EXTRA_ID, position);
         startActivityForResult(intent, EDIT_ACTION);
     }
@@ -78,21 +80,21 @@ public class MainActivity extends MyBaseActivity {
         if (resultCode == RESULT_OK && data != null) {
             Bundle extras = data.getExtras();
             if (extras != null) {
-                String text = extras.getString(EXTRA_TEXT);
+                Note note = (Note) extras.getSerializable(EXTRA_NOTE);
 
                 switch (requestCode) {
                     case CREATE_ACTION:
-                        // Добавляем новую строку в список
-                        if (text != null && !text.trim().isEmpty()) {
-                            notes.add(text);
+                        // Добавляем новую запись в список
+                        if (note != null && note.getTitle() != null && !note.getTitle().trim().isEmpty()) {
+                            notes.add(note);
                             adapter.notifyDataSetChanged(); // Обновляем адаптер
                         }
                         break;
                     case EDIT_ACTION:
-                        // Извлекаем позицию строки и редактируем
+                        // Извлекаем позицию и редактируем запись
                         int position = extras.getInt(EXTRA_ID);
-                        if (text != null && position >= 0 && position < notes.size()) {
-                            notes.set(position, text);
+                        if (note != null && position >= 0 && position < notes.size()) {
+                            notes.set(position, note);
                             adapter.notifyDataSetChanged(); // Обновляем адаптер
                         }
                         break;

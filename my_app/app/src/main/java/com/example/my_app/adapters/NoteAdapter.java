@@ -8,12 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.my_app.R;
 import com.example.my_app.activities.MainActivity;
+import com.example.my_app.model.Note;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class NoteAdapter extends BaseAdapter {
     private Context context;
-    private List<String> notes;
+    private List<Note> notes;
     private LayoutInflater inflater;
+    private SimpleDateFormat dateFormat;
 
     public NoteAdapter(Context context) {
         this.context = context;
@@ -21,6 +25,7 @@ public class NoteAdapter extends BaseAdapter {
         MainActivity mainActivity = (MainActivity) context;
         this.notes = mainActivity.getNotes();
         this.inflater = LayoutInflater.from(context);
+        this.dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
     }
 
     @Override
@@ -29,7 +34,7 @@ public class NoteAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public Note getItem(int position) {
         return notes.get(position);
     }
 
@@ -40,26 +45,33 @@ public class NoteAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
+        ViewHolder holder;
+
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_note, parent, false);
+            convertView = inflater.inflate(R.layout.item_note, parent, false);
+            holder = new ViewHolder();
+            holder.colorSquare = convertView.findViewById(R.id.colorSquare);
+            holder.textTitle = convertView.findViewById(R.id.textTitle);
+            holder.textContent = convertView.findViewById(R.id.textContent);
+            holder.textTime = convertView.findViewById(R.id.textTime);
+            convertView.setTag(holder);
         } else {
-            view = convertView;
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        // Получаем текст записи
-        String noteText = notes.get(position);
+        // Получаем объект Note
+        Note note = notes.get(position);
 
-        // Находим TextView и устанавливаем текст
-        TextView textView = view.findViewById(R.id.textView);
-        textView.setText(noteText);
+        // Устанавливаем данные в TextView
+        holder.textTitle.setText(note.getTitle());
+        holder.textContent.setText(note.getContent());
+        holder.textTime.setText(dateFormat.format(note.getTime()));
 
-        // Находим цветной квадратик и устанавливаем цвет
-        View colorSquare = view.findViewById(R.id.colorSquare);
+        // Устанавливаем цветной квадратик
         int color = getColorForPosition(position);
-        colorSquare.setBackgroundColor(color);
+        holder.colorSquare.setBackgroundColor(color);
 
-        return view;
+        return convertView;
     }
 
     private int getColorForPosition(int position) {
@@ -70,5 +82,13 @@ public class NoteAdapter extends BaseAdapter {
         };
         int index = position % colors.length;
         return android.graphics.Color.parseColor(colors[index]);
+    }
+
+    // ViewHolder pattern для оптимизации
+    private static class ViewHolder {
+        View colorSquare;
+        TextView textTitle;
+        TextView textContent;
+        TextView textTime;
     }
 }
