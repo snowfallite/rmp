@@ -1,94 +1,98 @@
 package com.example.my_app.activities;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.example.my_app.R;
 import com.example.my_app.base.MyBaseActivity;
-import java.util.ArrayList;
 
 public class MainActivity extends MyBaseActivity {
 
-    private ArrayList<String> notesList;
-    private ArrayAdapter<String> adapter;
-    private ListView listView;
+    private EditText editTextSimple;
+    private EditText editTextName;
+    private EditText editTextAge;
+    private LinearLayout containerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.listView);
-        Button addButton = findViewById(R.id.addButton);
+        // Инициализация элементов
+        editTextSimple = findViewById(R.id.editTextSimple);
+        editTextName = findViewById(R.id.editTextName);
+        editTextAge = findViewById(R.id.editTextAge);
+        containerLayout = findViewById(R.id.containerLayout);
 
-        // Инициализация списка заметок
-        notesList = new ArrayList<>();
+        Button buttonAddText = findViewById(R.id.buttonAddText);
+        Button buttonAddPerson = findViewById(R.id.buttonAddPerson);
 
-        // Создание адаптера
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notesList);
-        listView.setAdapter(adapter);
-
-        // Обработчик нажатия кнопки Add
-        addButton.setOnClickListener(new View.OnClickListener() {
+        // Обработчики кнопок
+        buttonAddText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openNoteActivityForCreate();
+                addSimpleText();
             }
         });
 
-        // Обработчик нажатия на элемент списка
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        buttonAddPerson.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openNoteActivityForEdit(position);
+            public void onClick(View v) {
+                addPersonInfo();
             }
         });
     }
 
-    private void openNoteActivityForCreate() {
-        Intent intent = new Intent(this, NoteActivity.class);
-        startActivityForResult(intent, CREATE_ACTION);
+    private void addSimpleText() {
+        String text = editTextSimple.getText().toString().trim();
+        if (!text.isEmpty()) {
+            // Создаем LayoutInflater
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            // Создаем TextView из разметки
+            TextView textView = (TextView) inflater.inflate(R.layout.item_text, null);
+
+            // Устанавливаем текст
+            textView.setText(text);
+
+            // Добавляем в контейнер
+            containerLayout.addView(textView);
+
+            // Очищаем EditText
+            editTextSimple.setText("");
+        }
     }
 
-    private void openNoteActivityForEdit(int position) {
-        Intent intent = new Intent(this, NoteActivity.class);
-        // Передаем текст заметки и позицию
-        intent.putExtra(EXTRA_TEXT, notesList.get(position));
-        intent.putExtra(EXTRA_ID, position);
-        startActivityForResult(intent, EDIT_ACTION);
-    }
+    private void addPersonInfo() {
+        String name = editTextName.getText().toString().trim();
+        String age = editTextAge.getText().toString().trim();
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (!name.isEmpty() && !age.isEmpty()) {
+            // Создаем LayoutInflater
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (resultCode == RESULT_OK && data != null) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                String text = extras.getString(EXTRA_TEXT);
+            // Создаем сложный элемент из разметки
+            LinearLayout root = (LinearLayout) inflater.inflate(R.layout.item_person, null);
 
-                switch (requestCode) {
-                    case CREATE_ACTION:
-                        // Добавляем новую строку в список
-                        if (text != null && !text.trim().isEmpty()) {
-                            notesList.add(text);
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                    case EDIT_ACTION:
-                        // Извлекаем позицию строки и редактируем
-                        int position = extras.getInt(EXTRA_ID);
-                        if (text != null && position >= 0 && position < notesList.size()) {
-                            notesList.set(position, text);
-                            adapter.notifyDataSetChanged();
-                        }
-                        break;
-                }
-            }
+            // Находим TextView для имени и устанавливаем текст
+            TextView textName = (TextView) root.findViewById(R.id.textName);
+            textName.setText("Name: " + name);
+
+            // Находим TextView для возраста и устанавливаем текст
+            TextView textAge = (TextView) root.findViewById(R.id.textAge);
+            textAge.setText("Age: " + age);
+
+            // Добавляем в контейнер
+            containerLayout.addView(root);
+
+            // Очищаем EditText-ы
+            editTextName.setText("");
+            editTextAge.setText("");
         }
     }
 
