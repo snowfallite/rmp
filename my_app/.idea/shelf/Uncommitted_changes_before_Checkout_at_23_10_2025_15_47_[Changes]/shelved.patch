@@ -1,0 +1,19 @@
+Index: app/src/main/java/com/example/my_app/ColorsAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.my_app;\r\n\r\nimport android.content.Context;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.BaseAdapter;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.core.content.ContextCompat;\r\n\r\npublic class ColorsAdapter extends BaseAdapter {\r\n    private final String[] names;\r\n    private final Context context;\r\n\r\n    // Конструктор адаптера\r\n    public ColorsAdapter(Context context, String[] names) {\r\n        this.context = context;\r\n        this.names = names;\r\n    }\r\n\r\n    @Override\r\n    public int getCount() {\r\n        return names.length;\r\n    }\r\n\r\n    @Override\r\n    public Object getItem(int position) {\r\n        return names[position];\r\n    }\r\n\r\n    @Override\r\n    public long getItemId(int position) {\r\n        return position;\r\n    }\r\n\r\n    @Override\r\n    public View getView(int position, View convertView, ViewGroup parent) {\r\n        View view = convertView;\r\n\r\n\r\n        if (view == null) {\r\n            LayoutInflater inflater = (LayoutInflater)\r\n                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);\r\n            view = inflater.inflate(R.layout.list_item, parent, false);\r\n        }\r\n\r\n\r\n        TextView textView = view.findViewById(R.id.itemText);\r\n        textView.setText(names[position]);\r\n\r\n        if (position % 2 == 0) {\r\n            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.pink));\r\n        } else {\r\n            textView.setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue));\r\n        }\r\n\r\n        return view;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/my_app/ColorsAdapter.java b/app/src/main/java/com/example/my_app/ColorsAdapter.java
+--- a/app/src/main/java/com/example/my_app/ColorsAdapter.java	(revision 8237812437441a91b53b5b983107a288086d7c5e)
++++ b/app/src/main/java/com/example/my_app/ColorsAdapter.java	(date 1761223645937)
+@@ -13,7 +13,7 @@
+     private final String[] names;
+     private final Context context;
+ 
+-    // Конструктор адаптера
++   
+     public ColorsAdapter(Context context, String[] names) {
+         this.context = context;
+         this.names = names;

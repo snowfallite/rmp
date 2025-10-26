@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="ar1">
-        <item>Apple</item>
-        <item>Banana</item>
-        <item>Cherry</item>
-        <item>Date</item>
+    <!-- Массив названий цветов -->
+    <string-array name="color_names">
+        <item>Розовый</item>
+        <item>Зелёный</item>
+        <item>Голубой</item>
+        <item>Белый</item>
     </string-array>
 
-    <string-array name="ar2">
-        <item>Dog</item>
-        <item>Cat</item>
-        <item>Fox</item>
-        <item>Wolf</item>
-    </string-array>
+    <!-- Массив кодов цветов (в формате #AARRGGBB) -->
+    <array name="color_values">
+        <item>#FFFFC0CB</item> <!-- Розовый -->
+        <item>#FF90EE90</item> <!-- Зелёный -->
+        <item>#FFADD8E6</item> <!-- Голубой -->
+        <item>#FFFFFFFF</item> <!-- Белый -->
+    </array>
 </resources>

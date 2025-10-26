@@ -1,10 +1,12 @@
-package com.example.my_app;
+package com.example.my_app.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.my_app.R;
+import com.example.my_app.base.MyBaseActivity;
 
-public class ThirdActivity extends AppCompatActivity {
+public class ThirdActivity extends MyBaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

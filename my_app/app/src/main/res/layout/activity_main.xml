@@ -10,4 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Выберите цвет фона" />
+
+    <Button
+        android:id="@+id/btnThirdActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Третья активность" />
 </LinearLayout>
