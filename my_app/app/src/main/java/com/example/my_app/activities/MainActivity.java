@@ -1,70 +1,75 @@
 package com.example.my_app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import com.example.my_app.R;
 import com.example.my_app.base.MyBaseActivity;
 
-public class MainActivity extends MyBaseActivity implements TextWatcher {
+public class MainActivity extends MyBaseActivity {
 
-    private EditText editText;
-    private Button copyButton;
-    private TextView textView;
+    private EditText editText1;
+    private EditText editText2;
+    private Button buttonEdit;
+
+    // Идентификатор типа запроса
+    protected static final int MY_ACTION = 0x000314;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Находим все элементы
-        editText = findViewById(R.id.editText);
-        copyButton = findViewById(R.id.copyButton);
-        textView = findViewById(R.id.textView);
+        editText1 = findViewById(R.id.editText1);
+        editText2 = findViewById(R.id.editText2);
+        buttonEdit = findViewById(R.id.buttonEdit);
 
-        // Устанавливаем слушатель изменений текста
-        editText.addTextChangedListener(this);
-
-        // Изначально делаем кнопку недоступной
-        copyButton.setEnabled(false);
-
-        // Устанавливаем обработчик нажатия на кнопку
-        copyButton.setOnClickListener(new View.OnClickListener() {
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                copyText();
+                openSecondActivity();
             }
         });
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // Можно оставить пустым
+    private void openSecondActivity() {
+        Intent intent = new Intent(this, SecondActivity.class);
+
+        // Передаем содержимое EditText в Intent
+        intent.putExtra(getString(R.string.key_text1), editText1.getText().toString());
+        intent.putExtra(getString(R.string.key_text2), editText2.getText().toString());
+
+        // Запускаем активность для получения результата
+        startActivityForResult(intent, MY_ACTION);
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // Проверяем, есть ли текст (пробелы не считаются)
-        String text = s.toString().trim();
-        boolean hasText = text.length() > 0;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // Устанавливаем доступность кнопки
-        copyButton.setEnabled(hasText);
-    }
+        // Проверяем тип запроса (у нас только один)
+        if (requestCode == MY_ACTION) {
+            // Проверяем, был ли результат успешным
+            if (resultCode == RESULT_OK) {
+                // Получаем данные из Intent
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    // Извлекаем данные и копируем в EditText
+                    String text1 = extras.getString(getString(R.string.key_text1));
+                    String text2 = extras.getString(getString(R.string.key_text2));
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        // Можно оставить пустым
-    }
-
-    private void copyText() {
-        // Копируем содержимое EditText в TextView
-        String text = editText.getText().toString();
-        textView.setText(text);
+                    if (text1 != null) {
+                        editText1.setText(text1);
+                    }
+                    if (text2 != null) {
+                        editText2.setText(text2);
+                    }
+                }
+            }
+            // Если resultCode == RESULT_CANCELED, ничего не делаем
+        }
     }
 
     public void goBack(View view) {

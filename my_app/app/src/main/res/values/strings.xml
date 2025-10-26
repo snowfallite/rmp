@@ -4,5 +4,6 @@
     <string name="string_element_1">key_str1</string>
     <string name="string_element_2">key_str2</string>
     <string name="int_element">key_int</string>
-
+    <string name="key_text1">text1</string>
+    <string name="key_text2">text2</string>
 </resources>
