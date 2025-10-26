@@ -3,17 +3,39 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите текст"
+        android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnChooseColor"
+        android:id="@+id/copyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выберите цвет фона" />
+        android:text="Копировать"
+        android:layout_marginBottom="16dp"
+        android:enabled="false" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Текст будет скопирован сюда"
+        android:textSize="16sp"
+        android:background="#f0f0f0"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnThirdActivity"
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Третья активность" />
+        android:text="Назад"
+        android:onClick="goBack" />
+
 </LinearLayout>
