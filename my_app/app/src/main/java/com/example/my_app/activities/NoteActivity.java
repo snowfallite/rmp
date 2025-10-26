@@ -23,10 +23,6 @@ public class NoteActivity extends MyBaseActivity {
         editText = findViewById(R.id.editText);
         okButton = findViewById(R.id.okButton);
 
-        // Устанавливаем многострочный режим
-        editText.setSingleLine(false);
-        editText.setLines(5);
-
         // Получаем Intent, с помощью которого была запущена активность
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
