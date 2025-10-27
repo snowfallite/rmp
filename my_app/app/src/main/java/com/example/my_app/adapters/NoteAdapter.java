@@ -25,7 +25,7 @@ public class NoteAdapter extends BaseAdapter {
         MainActivity mainActivity = (MainActivity) context;
         this.notes = mainActivity.getNotes();
         this.inflater = LayoutInflater.from(context);
-        this.dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        this.dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class NoteAdapter extends BaseAdapter {
             holder.colorSquare = convertView.findViewById(R.id.colorSquare);
             holder.textTitle = convertView.findViewById(R.id.textTitle);
             holder.textContent = convertView.findViewById(R.id.textContent);
-            holder.textTime = convertView.findViewById(R.id.textTime);
+            holder.textDateTime = convertView.findViewById(R.id.textDateTime);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -65,7 +65,7 @@ public class NoteAdapter extends BaseAdapter {
         // Устанавливаем данные в TextView
         holder.textTitle.setText(note.getTitle());
         holder.textContent.setText(note.getContent());
-        holder.textTime.setText(dateFormat.format(note.getTime()));
+        holder.textDateTime.setText(dateFormat.format(note.getDateTime()));
 
         // Устанавливаем цветной квадратик
         int color = getColorForPosition(position);
@@ -89,6 +89,6 @@ public class NoteAdapter extends BaseAdapter {
         View colorSquare;
         TextView textTitle;
         TextView textContent;
-        TextView textTime;
+        TextView textDateTime;
     }
 }

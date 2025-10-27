@@ -42,9 +42,9 @@
             android:textColor="#333333"
             android:layout_marginBottom="4dp" />
 
-        <!-- Время -->
+        <!-- Дата и время -->
         <TextView
-            android:id="@+id/textTime"
+            android:id="@+id/textDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"

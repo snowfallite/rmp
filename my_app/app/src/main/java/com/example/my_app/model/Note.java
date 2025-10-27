@@ -6,12 +6,12 @@ import java.util.Date;
 public class Note implements Serializable {
     private String title;
     private String content;
-    private Date time;
+    private Date dateTime;
 
-    public Note(String title, String content, Date time) {
+    public Note(String title, String content, Date dateTime) {
         this.title = title;
         this.content = content;
-        this.time = time;
+        this.dateTime = dateTime;
     }
 
     // Getters
@@ -23,8 +23,8 @@ public class Note implements Serializable {
         return content;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getDateTime() {
+        return dateTime;
     }
 
     // Setters
@@ -36,12 +36,12 @@ public class Note implements Serializable {
         this.content = content;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 
     @Override
     public String toString() {
-        return title + "\n" + content + "\n" + time.toString();
+        return title + "\n" + content + "\n" + dateTime.toString();
     }
 }

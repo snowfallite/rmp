@@ -24,6 +24,26 @@
         android:gravity="top|start"
         android:layout_marginBottom="16dp" />
 
+    <!-- Кнопка для выбора даты и времени -->
+    <Button
+        android:id="@+id/btnDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выбрать дату и время"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Отображение выбранной даты и времени -->
+    <TextView
+        android:id="@+id/textDateTimeDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Дата и время не выбраны"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
