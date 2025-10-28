@@ -1,102 +1,68 @@
 package com.example.my_app.activities;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.example.my_app.R;
 import com.example.my_app.base.MyBaseActivity;
+import com.example.my_app.data.AppDatabase;
+import com.example.my_app.data.Person;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends MyBaseActivity {
 
-    private EditText editTextSimple;
-    private EditText editTextName;
-    private EditText editTextAge;
-    private LinearLayout containerLayout;
+    private EditText editLastName, editFirstName, editAge;
+    private Button buttonAdd, buttonShow;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    private AppDatabase db;
+    private List<String> peopleList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Инициализация элементов
-        editTextSimple = findViewById(R.id.editTextSimple);
-        editTextName = findViewById(R.id.editTextName);
-        editTextAge = findViewById(R.id.editTextAge);
-        containerLayout = findViewById(R.id.containerLayout);
+        editLastName = findViewById(R.id.editLastName);
+        editFirstName = findViewById(R.id.editFirstName);
+        editAge = findViewById(R.id.editAge);
+        buttonAdd = findViewById(R.id.buttonAdd);
+        buttonShow = findViewById(R.id.buttonShow);
+        listView = findViewById(R.id.listView);
 
-        Button buttonAddText = findViewById(R.id.buttonAddText);
-        Button buttonAddPerson = findViewById(R.id.buttonAddPerson);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, peopleList);
+        listView.setAdapter(adapter);
 
-        // Обработчики кнопок
-        buttonAddText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addSimpleText();
+        db = AppDatabase.getInstance(this);
+
+        buttonAdd.setOnClickListener(view -> {
+            String lastName = editLastName.getText().toString().trim();
+            String firstName = editFirstName.getText().toString().trim();
+            String ageText = editAge.getText().toString().trim();
+
+            if (lastName.isEmpty() || firstName.isEmpty() || ageText.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            int age = Integer.parseInt(ageText);
+            db.personDao().insert(new Person(lastName, firstName, age));
+
+            Toast.makeText(MainActivity.this, "Добавлено!", Toast.LENGTH_SHORT).show();
+
+            editLastName.setText("");
+            editFirstName.setText("");
+            editAge.setText("");
         });
 
-        buttonAddPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addPersonInfo();
+        buttonShow.setOnClickListener(view -> {
+            List<Person> people = db.personDao().getAll();
+            peopleList.clear();
+            for (Person p : people) {
+                peopleList.add(p.id + ". " + p.lastName + " " + p.firstName + " — " + p.age + " лет");
             }
+            adapter.notifyDataSetChanged();
         });
-    }
-
-    private void addSimpleText() {
-        String text = editTextSimple.getText().toString().trim();
-        if (!text.isEmpty()) {
-            // Создаем LayoutInflater
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            // Создаем TextView из разметки
-            TextView textView = (TextView) inflater.inflate(R.layout.item_text, null);
-
-            // Устанавливаем текст
-            textView.setText(text);
-
-            // Добавляем в контейнер
-            containerLayout.addView(textView);
-
-            // Очищаем EditText
-            editTextSimple.setText("");
-        }
-    }
-
-    private void addPersonInfo() {
-        String name = editTextName.getText().toString().trim();
-        String age = editTextAge.getText().toString().trim();
-
-        if (!name.isEmpty() && !age.isEmpty()) {
-            // Создаем LayoutInflater
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            // Создаем сложный элемент из разметки
-            LinearLayout root = (LinearLayout) inflater.inflate(R.layout.item_person, null);
-
-            // Находим TextView для имени и устанавливаем текст
-            TextView textName = (TextView) root.findViewById(R.id.textName);
-            textName.setText("Name: " + name);
-
-            // Находим TextView для возраста и устанавливаем текст
-            TextView textAge = (TextView) root.findViewById(R.id.textAge);
-            textAge.setText("Age: " + age);
-
-            // Добавляем в контейнер
-            containerLayout.addView(root);
-
-            // Очищаем EditText-ы
-            editTextName.setText("");
-            editTextAge.setText("");
-        }
-    }
-
-    public void goBack(View view) {
-        onBackPressed();
     }
 }

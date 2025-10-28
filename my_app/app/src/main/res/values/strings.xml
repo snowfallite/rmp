@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">Осипов А.Д 222909071097</string>
-    <string name="preferences">my_settings</string>
-    <string name="string_element_1">key_str1</string>
-    <string name="string_element_2">key_str2</string>
-    <string name="int_element">key_int</string>
-    <string name="key_text1">text1</string>
-    <string name="key_text2">text2</string>
-</resources>
