@@ -1,12 +1,10 @@
 package com.example.my_app.activities;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import com.example.my_app.R;
-import com.example.my_app.adapters.ColorsAdapter;
 import com.example.my_app.base.MyBaseActivity;
-
+import com.example.my_app.adapters.ColorsAdapter;
 public class ColorsActivity extends MyBaseActivity {
 
     @Override

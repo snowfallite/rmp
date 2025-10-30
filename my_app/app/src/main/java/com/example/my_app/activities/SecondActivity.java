@@ -1,58 +1,110 @@
 package com.example.my_app.activities;
 
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import com.example.my_app.R;
-import com.example.my_app.base.MyBaseActivity;
+import com.example.my_app.adapters.CurrencyAdapter;
+public class SecondActivity extends AppCompatActivity {
 
-public class SecondActivity extends MyBaseActivity {
-
-    private EditText editText1;
-    private EditText editText2;
+    private RecyclerView recyclerView;
+    private CurrencyAdapter adapter;
+    private List<CurrencyItem> currencies = new ArrayList<>();
+    private TextView tvDate;
+    private final double COEFF = 0.05;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        editText1 = findViewById(R.id.editText1);
-        editText2 = findViewById(R.id.editText2);
+        tvDate = findViewById(R.id.tv_date);
+        recyclerView = findViewById(R.id.recycler_currencies);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Получаем Intent, с помощью которого была запущена активность
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            // Проверяем, были ли переданы данные
-            String text1 = extras.getString(getString(R.string.key_text1));
-            String text2 = extras.getString(getString(R.string.key_text2));
+        adapter = new CurrencyAdapter(currencies, this);
+        recyclerView.setAdapter(adapter);
 
-            // Помещаем извлеченные строки в EditText
-            if (text1 != null) {
-                editText1.setText(text1);
-            }
-            if (text2 != null) {
-                editText2.setText(text2);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        tvDate.setText(sdf.format(new Date()));
+
+        // Запускаем загрузку курсов валют
+        new LoadRatesTask().execute("https://www.cbr.ru/scripts/XML_daily.asp");
+    }
+
+    // Исправленное имя класса без пробелов
+    private class LoadRatesTask extends AsyncTask<String, Void, List<CurrencyItem>> {
+
+        @Override
+        protected List<CurrencyItem> doInBackground(String... urls) {
+            try {
+                // Получаем XML с сайта
+                String xml = NetworkUtils.getXML(urls[0]);
+
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new java.io.ByteArrayInputStream(xml.getBytes()));
+
+                NodeList list = doc.getElementsByTagName("Valute");
+                List<CurrencyItem> temp = new ArrayList<>();
+
+                for (int i = 0; i < list.getLength(); i++) {
+                    Node node = list.item(i);
+                    NodeList child = node.getChildNodes();
+                    String code = "", name = "", value = "";
+
+                    for (int j = 0; j < child.getLength(); j++) {
+                        Node c = child.item(j);
+                        switch (c.getNodeName()) {
+                            case "CharCode": code = c.getTextContent(); break;
+                            case "Name": name = c.getTextContent(); break;
+                            case "Value": value = c.getTextContent().replace(",", "."); break;
+                        }
+                    }
+
+                    double cbRate = Double.parseDouble(value);
+                    double buy = cbRate + cbRate * COEFF;
+                    double sell = cbRate + cbRate * COEFF;
+                    temp.add(new CurrencyItem(code, name, buy, sell));
+                }
+
+                return temp;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
         }
-    }
 
-    // Кнопка OK
-    public void ready(View view) {
-        Intent intent = getIntent(); // Получаем Intent, с помощью которого была запущена активность
+        @Override
+        protected void onPostExecute(List<CurrencyItem> result) {
+            if (result == null) {
+                Toast.makeText(SecondActivity.this, "Ошибка загрузки", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        // Помещаем в объект класса Bundle данные из EditText
-        intent.putExtra(getString(R.string.key_text1), editText1.getText().toString());
-        intent.putExtra(getString(R.string.key_text2), editText2.getText().toString());
-
-        // Устанавливаем результат и завершаем активность
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    // Кнопка Cancel
-    public void onCancel(View view) {
-        setResult(RESULT_CANCELED);
-        finish();
+            currencies.clear();
+            currencies.addAll(result);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

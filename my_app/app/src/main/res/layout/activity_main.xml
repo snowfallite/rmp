@@ -1,85 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
+    android:background="@drawable/bg_gradient"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- EditText для текста -->
-    <EditText
-        android:id="@+id/editTextSimple"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Введите текст"
-        android:layout_marginBottom="8dp" />
-
-    <!-- EditText для имени и возраста -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Имя"
-            android:layout_marginEnd="8dp" />
-
-        <EditText
-            android:id="@+id/editTextAge"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Возраст"
-            android:inputType="number" />
-
-    </LinearLayout>
-
-    <!-- Кнопки -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <Button
-            android:id="@+id/buttonAddText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Добавить текст"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/buttonAddPerson"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Добавить человека" />
-
-    </LinearLayout>
-
-    <!-- Внутренний LinearLayout для добавления элементов -->
-    <LinearLayout
-        android:id="@+id/containerLayout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#f0f0f0"
-        android:padding="8dp" />
-
-    <!-- Кнопка назад -->
-    <Button
-        android:id="@+id/btnBack"
+    <TextView
+        android:text="WorldSkills Bank"
+        android:textSize="26sp"
+        android:textColor="#A020F0"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:drawableTop="@drawable/bank"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Назад"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:onClick="goBack" />
+        android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/btn_locations"
+        android:text="Отделения и банкоматы"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_rates"
+        android:text="Курсы валют"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="ВОЙТИ"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
