@@ -1,75 +1,119 @@
 package com.example.my_app.activities;
-import android.view.View;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.my_app.R;
-
-import java.util.Arrays;
+import com.example.my_app.base.MyApplication;
 
 public class SecondActivity extends AppCompatActivity {
-    private ArrayAdapter<String> adapter1;
-    private ArrayAdapter<String> adapter2;
+
     private EditText editText;
+    private Button okButton;
+    private MyApplication myApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        // Восстанавливаем цвет из SharedPreferences при старте активности
-        SharedPreferences pref = getSharedPreferences("MySettings", MODE_PRIVATE);
-        int savedColor = pref.getInt("color", 0xFFFFFFFF); // если нет сохранённого цвета, используем белый
-        getWindow().getDecorView().setBackgroundColor(savedColor); // Устанавливаем цвет фона
+        // Получаем ссылку на объект-приложение
+        myApp = (MyApplication) getApplicationContext();
 
-        ListView listView1 = findViewById(R.id.listView1);
-        ListView listView2 = findViewById(R.id.listView2);
         editText = findViewById(R.id.editText);
+        okButton = findViewById(R.id.okButton);
 
-        // Получаем строки из ресурсов
-        String[] ar1 = getResources().getStringArray(R.array.ar1);
-        String[] ar2 = getResources().getStringArray(R.array.ar2);
+        // Восстанавливаем значение из MyApplication
+        restoreDataFromApp();
 
-        // Создаём адаптеры
-        adapter1 = new ArrayAdapter<>(this, R.layout.list_item);
-        adapter2 = new ArrayAdapter<>(this, R.layout.list_item);
+        // Изначально кнопка неактивна
+        okButton.setEnabled(!editText.getText().toString().isEmpty());
 
-        adapter1.addAll(Arrays.asList(ar1));
-        adapter2.addAll(Arrays.asList(ar2));
+        // Слушатель для изменения текста в поле ввода
+        editText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
-        // Привязываем адаптеры к спискам
-        listView1.setAdapter(adapter1);
-        listView2.setAdapter(adapter2);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Включаем кнопку, если поле не пустое
+                boolean isEnabled = charSequence.length() > 0;
+                // Дополнительная проверка на число
+                if (isEnabled) {
+                    try {
+                        Double.parseDouble(charSequence.toString());
+                        okButton.setEnabled(true);
+                    } catch (NumberFormatException e) {
+                        okButton.setEnabled(false);
+                    }
+                } else {
+                    okButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable editable) {}
+        });
+
+        // Обработка нажатия кнопки OK
+        okButton.setOnClickListener(v -> {
+            String inputText = editText.getText().toString().trim();
+
+            if (!inputText.isEmpty()) {
+                try {
+                    // Проверяем, что введено число
+                    Double.parseDouble(inputText);
+
+                    // Сохраняем данные в MyApplication
+                    myApp.setResultData(inputText);
+
+                    // Закрываем активность
+                    finish();
+
+                } catch (NumberFormatException e) {
+                    // Если не число, кнопка и так будет disabled
+                }
+            }
+        });
     }
 
-    public void addToList1(View view) {
-        String text = editText.getText().toString().trim();
-        if (text.isEmpty()) {
-            Toast.makeText(this, "Введите текст", Toast.LENGTH_SHORT).show();
-            return;
+    // Восстанавливаем данные из MyApplication в EditText
+    private void restoreDataFromApp() {
+        String savedValue = myApp.getResultData();
+        if (savedValue != null && !savedValue.isEmpty()) {
+            editText.setText(savedValue);
+            editText.setSelection(savedValue.length()); // Курсор в конец
         }
-        adapter1.add(text);
-        editText.setText("");
     }
 
-    public void addToList2(View view) {
-        String text = editText.getText().toString().trim();
-        if (text.isEmpty()) {
-            Toast.makeText(this, "Введите текст", Toast.LENGTH_SHORT).show();
-            return;
+    @Override
+    public boolean onSupportNavigateUp() {
+        // При нажатии кнопки "Назад" сохраняем текущее значение
+        saveCurrentData();
+        finish();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // При системной кнопке "Назад" сохраняем текущее значение
+        saveCurrentData();
+        super.onBackPressed();
+    }
+
+    // Сохраняем текущие данные из EditText в MyApplication
+    private void saveCurrentData() {
+        String currentText = editText.getText().toString().trim();
+        if (!currentText.isEmpty()) {
+            try {
+                Double.parseDouble(currentText);
+                myApp.setResultData(currentText);
+            } catch (NumberFormatException e) {
+                // Игнорируем нечисловые значения
+            }
         }
-        adapter2.add(text);
-        editText.setText("");
-    }
-
-    public void goBack(View view) {
-        finish(); // то же, что onBackPressed(), но короче
     }
 }

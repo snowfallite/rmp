@@ -3,27 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnFirst"
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Часть 1 — Повтор текста" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnSecond"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Часть 2 — Два списка"
-        android:layout_marginTop="16dp" />
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add" />
 
-    <Button
-        android:id="@+id/btnThird"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Часть 3 — Цвет фона"
-        android:layout_marginTop="16dp" />
-
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delete" />
+    </LinearLayout>
 </LinearLayout>
