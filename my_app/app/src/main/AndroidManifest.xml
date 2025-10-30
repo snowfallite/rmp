@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.NoteActivity"
+            android:name=".activities.FirstActivity"
             android:exported="false" />
         <activity android:name=".activities.ColorsActivity" />
         <activity android:name=".activities.SecondActivity" />

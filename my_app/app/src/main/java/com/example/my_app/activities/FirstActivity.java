@@ -4,12 +4,12 @@ import android.os.Bundle;
 import com.example.my_app.R;
 import com.example.my_app.base.MyBaseActivity;
 
-public class ThirdActivity extends MyBaseActivity {
+public class FirstActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third);
+        setContentView(R.layout.activity_first);
 
-        // Здесь будет код для лабораторной работы 2
+        // Здесь будет код для задачи п.1
     }
 }
