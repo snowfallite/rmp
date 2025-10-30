@@ -17,8 +17,8 @@ public class ColorsActivity extends MyBaseActivity {
         ListView listView = findViewById(R.id.listView);
 
         // Получаем массивы из ресурсов
-        String[] names = getResources().getStringArray(R.array.color_names);
-        int[] values = getResources().getIntArray(R.array.color_values);
+        String[] names = getResources().getStringArray(R.array.ar1);
+        int[] values = getResources().getIntArray(R.array.ar2);
 
         // Свой адаптер для списка цветов
         ColorsAdapter adapter = new ColorsAdapter(this, names, values);

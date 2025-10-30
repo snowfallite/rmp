@@ -3,35 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/editTextWord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter text" />
-
-    <EditText
-        android:id="@+id/editTextCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Count" />
+    android:gravity="center"
+    android:padding="24dp">
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnFirst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD" />
+        android:text="Часть 1 — Повтор текста" />
 
     <Button
-        android:id="@+id/btnClear"
+        android:id="@+id/btnSecond"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CLEAR" />
+        android:text="Часть 2 — Два списка"
+        android:layout_marginTop="16dp" />
 
-    <ListView
-        android:id="@+id/listView"
+    <Button
+        android:id="@+id/btnThird"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Часть 3 — Цвет фона"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

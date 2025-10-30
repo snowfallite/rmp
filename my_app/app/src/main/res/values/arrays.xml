@@ -1,18 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Массив названий цветов -->
-    <string-array name="color_names">
-        <item>Розовый</item>
-        <item>Зелёный</item>
-        <item>Голубой</item>
-        <item>Белый</item>
+    <string-array name="ar1">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
-    <!-- Массив кодов цветов (в формате #AARRGGBB) -->
-    <array name="color_values">
-        <item>#FFFFC0CB</item> <!-- Розовый -->
-        <item>#FF90EE90</item> <!-- Зелёный -->
-        <item>#FFADD8E6</item> <!-- Голубой -->
-        <item>#FFFFFFFF</item> <!-- Белый -->
-    </array>
+    <string-array name="ar2">
+        <item>31</item>
+        <item>41</item>
+        <item>51</item>
+    </string-array>
 </resources>

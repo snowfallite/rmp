@@ -1,53 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Текст 1"
-        android:layout_marginBottom="16dp" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Текст 2"
-        android:layout_marginBottom="16dp" />
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFF0F0"/>
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F0FFF0"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:hint="Enter text here"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
         <Button
-            android:id="@+id/btnOK"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnAdd1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:layout_marginEnd="16dp"
-            android:onClick="ready" />
+            android:layout_weight="1"
+            android:text="Add To List 1"
+            android:onClick="addToList1"/>
 
         <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnAdd2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:onClick="onCancel" />
-
+            android:layout_weight="1"
+            android:text="Add To List 2"
+            android:onClick="addToList2"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Назад"
-        android:onClick="goBack" />
-
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="Back"
+        android:onClick="goBack"/>
 </LinearLayout>
