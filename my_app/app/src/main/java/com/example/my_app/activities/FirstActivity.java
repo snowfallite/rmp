@@ -33,7 +33,7 @@ public class FirstActivity extends AppCompatActivity {
         adapter = new LocationAdapter(locations);
         recyclerView.setAdapter(adapter);
 
-        new LoadLocationsTask().execute("http://192.168.0.103:5000/locations"); // заменить на свой URL
+        new LoadLocationsTask().execute("http://ro1.vega-connect.icu:5000/locations"); // заменить на свой URL
     }
 
     private class LoadLocationsTask extends AsyncTask<String, Void, String> {

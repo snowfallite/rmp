@@ -52,14 +52,21 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.VH> {
         String key = "last_" + it.getCode();
         double last = Double.longBitsToDouble(sp.getLong(key, Double.doubleToRawLongBits(Double.NaN)));
 
-        if (Double.isNaN(last)) {
-            h.tvBuyArrow.setText("-");
-            h.tvBuyArrow.setTextColor(Color.GRAY);
-            h.tvSellArrow.setText("-");
-            h.tvSellArrow.setTextColor(Color.GRAY);
+        // Проверка изменения курса и установка стрелки
+        if (!Double.isNaN(last)) {
+            if (it.getBuy() > last) {
+                h.tvBuyArrow.setText("↑");
+                h.tvBuyArrow.setTextColor(Color.GREEN); // Зеленая стрелка
+            } else if (it.getBuy() < last) {
+                h.tvBuyArrow.setText("↓");
+                h.tvBuyArrow.setTextColor(Color.RED); // Красная стрелка
+            } else {
+                h.tvBuyArrow.setText("-");
+                h.tvBuyArrow.setTextColor(Color.GRAY); // Стрелка в сторону (без изменения)
+            }
         } else {
-            setArrow(h.tvBuyArrow, it.getBuy(), last);
-            setArrow(h.tvSellArrow, it.getSell(), last);
+            h.tvBuyArrow.setText("→");
+            h.tvBuyArrow.setTextColor(Color.GRAY); // Если данных нет
         }
 
         // Сохраняем текущий курс покупки для следующего сравнения
@@ -84,19 +91,6 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.VH> {
         return R.drawable.flag_ad; // дефолтный флаг
     }
 
-    private void setArrow(TextView tv, double now, double prev) {
-        if (now > prev) {
-            tv.setText("↑");
-            tv.setTextColor(Color.parseColor("#2e7d32")); // зелёная
-        } else if (now < prev) {
-            tv.setText("↓");
-            tv.setTextColor(Color.parseColor("#c62828")); // красная
-        } else {
-            tv.setText("-");
-            tv.setTextColor(Color.GRAY);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return items.size();
@@ -113,8 +107,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.VH> {
             tvName = v.findViewById(R.id.tv_name);
             tvBuy = v.findViewById(R.id.tv_buy);
             tvSell = v.findViewById(R.id.tv_sell);
-            tvBuyArrow = v.findViewById(R.id.tv_buy_arrow);
-            tvSellArrow = v.findViewById(R.id.tv_sell_arrow);
+            tvBuyArrow = v.findViewById(R.id.tv_buy_arrow); // Стрелка для курса покупки
+            tvSellArrow = v.findViewById(R.id.tv_sell_arrow); // Стрелка для курса продажи (если нужно)
         }
     }
 }

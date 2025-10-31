@@ -13,18 +13,24 @@
         android:layout_marginBottom="40dp"
         android:gravity="center"
         android:drawableTop="@drawable/bank"
+        android:drawablePadding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btn_locations"
         android:text="Отделения и банкоматы"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btn_rates"
         android:text="Курсы валют"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_bg"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -32,6 +38,8 @@
     <Button
         android:id="@+id/btn_login"
         android:text="ВОЙТИ"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_bg"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
