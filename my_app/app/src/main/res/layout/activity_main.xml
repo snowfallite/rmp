@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center_horizontal"
@@ -7,40 +8,87 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="WorldSkills Bank"
-        android:textSize="26sp"
-        android:textColor="#A020F0"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"
-        android:drawableTop="@drawable/bank"
-        android:drawablePadding="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:drawableLeft="@drawable/bank"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="WorldSkills Bank"
+        android:textColor="#A020F0"
+        android:textSize="26sp" />
 
     <Button
         android:id="@+id/btn_locations"
         android:text="Отделения и банкоматы"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_bg"
+        android:drawableStart="@drawable/locations"
+        android:drawablePadding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:onClick="onBranchesClick" />
 
-    <Button
-        android:id="@+id/btn_rates"
-        android:text="Курсы валют"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/btn_bg"
-        android:layout_marginTop="10dp"
+    <!-- Единая "кнопка" для курсов: всё (заголовок, курсы, дата) в одном кликабельном LinearLayout -->
+    <LinearLayout
+        android:id="@+id/rates_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_bg"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="onRatesClick">
+
+        <!-- Заголовок с иконкой -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="                Курсы валют"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:drawableStart="@drawable/currency_exchange"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Курсы USD и EUR в одной строке -->
+        <TextView
+            android:id="@+id/tv_date"
+            android:text="Дата: Загрузка..."
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_rates"
+            android:text="USD: Загрузка...   EUR: Загрузка..."
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Дата -->
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_login"
         android:text="ВОЙТИ"
+        android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_bg"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="showLoginDialog" />
+
 </LinearLayout>

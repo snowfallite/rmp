@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Состояние нажатия: используем btn_pressed.xml (тёмный/вдавленный эффект) -->
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:drawable="@drawable/btn_pressed" />
+        </layer-list>
+    </item>
+
+    <!-- Состояние фокуса (для навигации клавиатурой/тач) -->
+    <item android:state_focused="true">
+        <layer-list>
+            <item android:drawable="@drawable/btn_normal" />
+        </layer-list>
+    </item>
+
+    <!-- Обычное состояние: используем btn_normal.xml (светлый/выпуклый эффект) -->
+    <item>
+        <layer-list>
+            <item android:drawable="@drawable/btn_normal" />
+        </layer-list>
+    </item>
+</selector>

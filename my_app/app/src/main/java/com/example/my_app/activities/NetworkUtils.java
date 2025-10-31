@@ -1,48 +1,41 @@
 package com.example.my_app.activities;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import java.util.concurrent.TimeUnit;
+import android.util.Log;
 
 public class NetworkUtils {
+    private static final String TAG = "NetworkUtils";
 
-    // returns JSON text or null
-    public static String getJSON(String urlStr) {
-        return getTextFromUrl(urlStr);
-    }
+    // Mock-данные для теста (если сервер недоступен)
+    private static final String MOCK_JSON = "[{\"city\":\"Москва\",\"street\":\"Ленинский проспект\",\"house\":\"1\",\"type\":\"Банк\",\"working_hours\":\"09:00-18:00\"},{\"city\":\"Санкт-Петербург\",\"street\":\"Невский проспект\",\"house\":\"10\",\"type\":\"Филиал\",\"working_hours\":\"Круглосуточно\"},{\"city\":\"Екатеринбург\",\"street\":\"Уральская\",\"house\":\"5\",\"type\":\"Отделение\",\"working_hours\":\"08:00-20:00\"}]";
 
-    // returns XML text or null
-    public static String getXML(String urlStr) {
-        return getTextFromUrl(urlStr);
-    }
-
-    private static String getTextFromUrl(String urlStr) {
-        HttpURLConnection conn = null;
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(10000);
-            conn.setReadTimeout(15000);
-
-            int code = conn.getResponseCode();
-            InputStream is = (code >= 200 && code < 400) ? conn.getInputStream() : conn.getErrorStream();
-            reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
+    public static String getJsonString(String url) {
+        int retries = 2;  // 2 попытки
+        for (int i = 0; i < retries; i++) {
+            try {
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(20, TimeUnit.SECONDS)  // Увеличено до 20 сек
+                        .readTimeout(20, TimeUnit.SECONDS)     // Увеличено до 20 сек
+                        .build();
+                Request request = new Request.Builder().url(url).build();
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String json = response.body().string();
+                        Log.d(TAG, "JSON загружен успешно, длина: " + json.length());
+                        return json;
+                    } else {
+                        Log.e(TAG, "Ошибка HTTP: " + response.code() + " (попытка " + (i + 1) + ")");
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Ошибка сети (попытка " + (i + 1) + "): " + e.getMessage());
+                e.printStackTrace();  // Полный stacktrace для отладки
             }
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            try { if (reader != null) reader.close(); } catch (Exception ignored) {}
-            if (conn != null) conn.disconnect();
         }
+        Log.w(TAG, "Все попытки провалились, возвращаю mock-данные для теста");
+        return MOCK_JSON;  // Если все попытки провалились, используй mock
     }
 }
