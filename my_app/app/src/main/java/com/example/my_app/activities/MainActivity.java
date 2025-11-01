@@ -37,7 +37,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView tvDate, tvRates;
+    private TextView tvDate, tvUsdRate, tvEurRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tvDate = findViewById(R.id.tv_date);
-        tvRates = findViewById(R.id.tv_rates);
+        tvUsdRate = findViewById(R.id.tv_usd);
+        tvEurRate = findViewById(R.id.tv_eur);
 
-        // Проверка интернета перед запуском AsyncTask
         if (isNetworkAvailable()) {
             new LoadRatesTask().execute();
         } else {
-            tvRates.setText("Нет интернета");
+            tvUsdRate.setText("Нет интернета");
+            tvEurRate.setText("Нет интернета");
             Toast.makeText(this, "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show();
         }
 
-        // Остальные клики без изменений
         findViewById(R.id.btn_locations).setOnClickListener(v ->
                 startActivity(new Intent(this, FirstActivity.class)));
 
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL("https://www.cbr.ru/scripts/XML_daily.asp");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Android; Mobile)"); // Добавь для CBR
-                connection.setConnectTimeout(10000); // Таймаут 10 сек
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Android; Mobile)");
+                connection.setConnectTimeout(10000);
                 connection.setReadTimeout(10000);
                 connection.connect();
 
@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                     reader.close();
                     connection.disconnect();
                     String xml = sb.toString();
-                    android.util.Log.d("LoadRatesTask", "XML получен: " + xml.substring(0, Math.min(200, xml.length()))); // Лог для отладки
                     return parseXml(xml);
                 } else {
                     android.util.Log.e("LoadRatesTask", "HTTP ошибка: " + connection.getResponseCode());
@@ -121,14 +120,16 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 String[] parts = result.split("\\|");
                 if (parts.length >= 3) {
-                    tvDate.setText("Дата: " + parts[0]); // Добавь "Дата:" для ясности
-                    tvRates.setText(parts[1] + "\n" + parts[2]); // Раздели на строки для лучшего вида
+                    tvDate.setText(parts[0]);
+                    tvUsdRate.setText(parts[1]);
+                    tvEurRate.setText(parts[2]);
                 } else {
-                    tvRates.setText("Ошибка парсинга");
-                    android.util.Log.e("LoadRatesTask", "Неверный формат result: " + result);
+                    tvUsdRate.setText("Ошибка парсинга");
+                    tvEurRate.setText("Ошибка парсинга");
                 }
             } else {
-                tvRates.setText("Ошибка загрузки");
+                tvUsdRate.setText("Ошибка загрузки");
+                tvEurRate.setText("Ошибка загрузки");
                 Toast.makeText(MainActivity.this, "Не удалось загрузить курсы валют", Toast.LENGTH_SHORT).show();
             }
         }
@@ -163,10 +164,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                android.util.Log.d("ParseXml", "USD: " + usdRate + ", EUR: " + eurRate); // Лог для проверки
                 return formattedDate + "|" + "USD: " + usdRate + "|" + "EUR: " + eurRate;
             } catch (Exception e) {
-                android.util.Log.e("ParseXml", "Ошибка парсинга: " + e.getMessage());
                 e.printStackTrace();
             }
             return null;

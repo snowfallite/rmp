@@ -3,16 +3,58 @@
     android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEEEEE"
+    android:background="@color/white"
     android:layout_marginBottom="8dp">
 
-    <TextView android:id="@+id/tv_address" android:textSize="16sp" android:textStyle="bold"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <!-- Первая строка: Только адрес на всю ширину -->
 
-    <TextView android:id="@+id/tv_type" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <!-- Вторая строка: Тип + Статус слева + Часы справа -->
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
-    <TextView android:id="@+id/tv_work" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp">
 
-    <TextView android:id="@+id/tv_status" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textStyle="bold"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="#000000" /> <!-- Тип, например "Банкомат" -->
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+
+                android:textColor="#4CAF50" /> <!-- Статус, например "Работает" (зеленый) -->
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="#666666"
+            android:gravity="end"
+            android:paddingStart="16dp" /> <!-- Часы справа, без bold -->
+    </LinearLayout>
+
 </LinearLayout>

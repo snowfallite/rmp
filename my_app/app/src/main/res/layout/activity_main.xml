@@ -10,85 +10,116 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
         android:drawableLeft="@drawable/bank"
         android:drawablePadding="8dp"
         android:gravity="center"
         android:text="WorldSkills Bank"
         android:textColor="#A020F0"
-        android:textSize="26sp" />
+        android:textSize="32sp" />
 
-    <Button
-        android:id="@+id/btn_locations"
-        android:text="Отделения и банкоматы"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/btn_bg"
-        android:drawableStart="@drawable/locations"
-        android:drawablePadding="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="onBranchesClick" />
-
-    <!-- Единая "кнопка" для курсов: всё (заголовок, курсы, дата) в одном кликабельном LinearLayout -->
     <LinearLayout
-        android:id="@+id/rates_container"
+        android:id="@+id/btn_locations"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg"
+    android:padding="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:onClick="onBranchesClick">
+
+    <!-- Заголовок с иконкой -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Отделения и банкоматы"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:drawableStart="@drawable/locations"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:layout_marginBottom="4dp" />
+</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rates_container"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_bg"
-        android:padding="12dp"
         android:clickable="true"
+        android:elevation="4dp"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="onRatesClick">
+        android:onClick="onRatesClick"
+        android:padding="12dp">
 
-        <!-- Заголовок с иконкой -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="                Курсы валют"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp"
             android:drawableStart="@drawable/currency_exchange"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="4dp" />
+            android:text="КУРСЫ ВАЛЮТ"
+            android:textColor="#000000"
+            android:textSize="16sp"
+           />
 
-        <!-- Курсы USD и EUR в одной строке -->
         <TextView
             android:id="@+id/tv_date"
-            android:text="Дата: Загрузка..."
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="end"
+            android:text="31.12.2018"
+            android:textColor="#000000"
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_rates"
-            android:text="USD: Загрузка...   EUR: Загрузка..."
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_marginBottom="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/tv_usd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="USD: 65.2"
+            android:textColor="#A40101"
+            android:textSize="16sp" />
 
-        <!-- Дата -->
+        <TextView
+            android:id="@+id/tv_eur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="EUR: 75.14"
+            android:textColor="#A40101"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
-    </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_login"
-        android:text="ВОЙТИ"
-        android:textAllCaps="true"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/btn_bg"
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showLoginDialog" />
+        android:layout_height="85dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_blue"
+        android:onClick="showLoginDialog"
+        android:text="ВОЙТИ"
+
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

@@ -39,7 +39,7 @@ public class FirstActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         if (isNetworkAvailable()) {
-            loadLocations("http://192.168.0.103:5000/locations");
+            loadLocations("http://10.0.2.2:5000/locations");
         } else {
             Toast.makeText(this, "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show();
         }
